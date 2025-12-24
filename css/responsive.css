@@ -1,0 +1,548 @@
+/* ============================================
+   RESPONSIVE STYLES FOR ALL SCREEN SIZES
+   Mobile First Approach
+   ============================================ */
+
+/* =====================================
+   LARGE TABLETS & SMALL DESKTOPS (max-width: 1200px)
+   ===================================== */
+@media (max-width: 1200px) {
+    .page-container {
+        width: 95%;
+        padding-bottom: 60px;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 2.2rem;
+    }
+}
+
+/* =====================================
+   TABLETS (max-width: 1024px)
+   ===================================== */
+@media (max-width: 1024px) {
+
+    /* Navigation */
+    .navbar {
+        padding: 1.2rem 3%;
+    }
+
+    .nav-links {
+        gap: 1.5rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+
+    /* Hero Section */
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    /* Card Grids */
+    .card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Stats Section */
+    .card-grid[style*="minmax(200px"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Process Section */
+    div[style*="minmax(220px"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Contact 3D Cards */
+    .contact-3d-cards-wrapper {
+        flex-wrap: wrap !important;
+    }
+
+    .contact-3d-card {
+        min-width: 280px !important;
+    }
+
+    /* Testimonial Cards */
+    .testimonial-card {
+        width: 380px;
+    }
+
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+}
+
+/* =====================================
+   TABLETS & LARGE PHONES (max-width: 768px)
+   ===================================== */
+@media (max-width: 768px) {
+
+    /* Typography */
+    h1 {
+        font-size: 2.5rem !important;
+    }
+
+    h2 {
+        font-size: 2rem !important;
+    }
+
+    h3 {
+        font-size: 1.3rem !important;
+    }
+
+    p {
+        font-size: 0.95rem;
+    }
+
+    /* Navigation - Keep desktop layout logic but adjust padding */
+    .navbar {
+        padding: 0.8rem 5%;
+        flex-direction: row;
+        /* Ensure it stays row for the toggle */
+        height: 70px;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    /* .nav-links and .nav-toggle logic is handled in layout.css for better control */
+
+    /* Hero Section */
+    .hero-overlay {
+        padding-left: 5%;
+        padding-right: 5%;
+        height: auto;
+        min-height: 100vh;
+        padding-top: 100px;
+        padding-bottom: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .hero-content p {
+        font-size: 0.95rem !important;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Buttons - Stack on mobile */
+    .hero-btns {
+        flex-direction: column !important;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 0.9rem 2rem;
+        font-size: 0.85rem;
+    }
+
+    /* Page Container */
+    .page-container {
+        padding-top: 150px;
+        width: 90%;
+    }
+
+    /* Stats Banner */
+    .stats-section {
+        padding-top: 3rem !important;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .glass-card[style*="text-align: center; padding: 2rem 1rem"] {
+        padding: 1.5rem 0.5rem !important;
+    }
+
+    .glass-card h2[style*="font-size: 3rem"] {
+        font-size: 2rem !important;
+    }
+
+    /* Trusted Partners */
+    .partners-logos {
+        gap: 1.5rem !important;
+    }
+
+    .partners-logos h3 {
+        font-size: 1.2rem !important;
+    }
+
+    /* Cards */
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .glass-card {
+        padding: 1.5rem;
+    }
+
+    /* Tech Marquee */
+    .tech-marquee span {
+        font-size: 1.2rem !important;
+        margin: 0 1rem !important;
+    }
+
+    /* Process Section */
+    .process-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .process-step {
+        padding: 1.5rem !important;
+    }
+
+    /* Services Cards */
+    .services-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Testimonials */
+    .testimonial-card {
+        width: 85vw;
+        padding: 1.5rem;
+    }
+
+    .carousel-track {
+        gap: 1.5rem;
+    }
+
+    /* Project Cards */
+    .project-card {
+        margin-bottom: 2rem;
+    }
+
+    .project-video-wrapper {
+        height: 250px !important;
+    }
+
+    .project-info h3 {
+        font-size: 1.5rem !important;
+    }
+
+    .project-info p {
+        font-size: 0.9rem !important;
+    }
+
+    /* Contact 3D Section */
+    .contact-3d-section {
+        margin: 4rem 0 !important;
+    }
+
+    .section-title h2[style*="font-size: 3rem"] {
+        font-size: 2rem !important;
+    }
+
+    .contact-3d-cards-wrapper {
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+    }
+
+    .contact-3d-card {
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: none !important;
+    }
+
+    /* Footer */
+    footer {
+        padding: 3rem 5% 1.5rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .footer-bottom div {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    /* Gallery */
+    .gallery-grid {
+        column-count: 2;
+    }
+
+    /* Forms */
+    .form-input,
+    .form-textarea {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* =====================================
+   MOBILE PHONES (max-width: 480px)
+   ===================================== */
+@media (max-width: 480px) {
+
+    /* Navigation - Consistent with layout.css mobile logic */
+    .navbar {
+        padding: 0.8rem 4%;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    /* .nav-links styles are handled in layout.css for the overlay menu */
+
+    /* Hero */
+    .hero-content h1 {
+        font-size: 2rem !important;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem !important;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 2rem !important;
+    }
+
+    h2 {
+        font-size: 1.8rem !important;
+    }
+
+    h3 {
+        font-size: 1.2rem !important;
+    }
+
+    /* Stats Grid */
+    .card-grid[style*="minmax(200px"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    .glass-card h2[style*="font-size: 3rem"] {
+        font-size: 2.5rem !important;
+    }
+
+    /* Trusted Partners */
+    div[style*="flex-wrap: wrap; gap: 3rem"] h3 {
+        font-size: 1rem !important;
+    }
+
+    /* Process Steps */
+    .process-step div[style*="width: 60px"] {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.2rem !important;
+    }
+
+    /* Project Videos */
+    div[style*="height: 400px"],
+    div[style*="height: 250px"] {
+        height: 200px !important;
+    }
+
+    .project-info {
+        padding: 1rem !important;
+    }
+
+    .project-info h3 {
+        font-size: 1.3rem !important;
+    }
+
+    /* Contact Cards */
+    .contact-3d-card div[style*="width: 70px"] {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .contact-3d-card h3 {
+        font-size: 1.2rem !important;
+        white-space: normal !important;
+    }
+
+    .contact-3d-card p {
+        font-size: 0.85rem !important;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.8rem;
+    }
+
+    /* Gallery */
+    .gallery-grid {
+        column-count: 1;
+    }
+
+    /* Section Spacing */
+    .page-container {
+        padding-top: 130px;
+        padding-bottom: 40px;
+    }
+
+    div[style*="padding-top: 6rem"] {
+        padding-top: 3rem !important;
+    }
+
+    div[style*="padding-top: 5rem"] {
+        padding-top: 2.5rem !important;
+    }
+
+    .section-title {
+        margin-bottom: 2rem;
+    }
+
+    /* Testimonials */
+    .testimonial-card {
+        width: 90vw;
+        padding: 1.2rem;
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        margin-right: 1rem;
+    }
+
+    .testimonial-info h4 {
+        font-size: 1rem;
+    }
+
+    .testimonial-info span {
+        font-size: 0.85rem;
+    }
+
+    .testimonial-text {
+        font-size: 0.95rem;
+    }
+}
+
+/* =====================================
+   VERY SMALL PHONES (max-width: 380px)
+   ===================================== */
+@media (max-width: 380px) {
+    .navbar {
+        padding: 0.6rem 2%;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-links a {
+        font-size: 0.7rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.8rem !important;
+    }
+
+    h2 {
+        font-size: 1.6rem !important;
+    }
+
+    .glass-card {
+        padding: 1.2rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.75rem;
+    }
+
+    .page-container {
+        width: 95%;
+    }
+}
+
+/* =====================================
+   LANDSCAPE MODE FIXES
+   ===================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-overlay {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 120px;
+        padding-bottom: 40px;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem !important;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-content p {
+        margin-bottom: 1rem;
+    }
+
+    .navbar {
+        padding: 0.5rem 3%;
+    }
+}
+
+/* =====================================
+   HOVER EFFECTS - DISABLE ON TOUCH DEVICES
+   ===================================== */
+@media (hover: none) and (pointer: coarse) {
+    .glass-card:hover {
+        transform: none;
+    }
+
+    .btn:hover {
+        transform: none;
+    }
+
+    .gallery-item:hover {
+        transform: none;
+    }
+
+    .contact-3d-card:hover {
+        transform: none;
+    }
+}

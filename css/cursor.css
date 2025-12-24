@@ -1,0 +1,15 @@
+/* Custom Cursor Styling - Disabled/Normalized
+* {
+    cursor: auto !important;
+}
+
+.cursor-dot,
+.cursor-outline {
+    display: none !important;
+}
+
+/* Text selection cursor */
+/* ::selection {
+    background: rgba(6, 182, 212, 0.3);
+    color: #fff;
+}  */

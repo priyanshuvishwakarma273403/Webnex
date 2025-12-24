@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | WEBNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cursor.css">
+
+    <!-- Three.js for 3D magic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- Pre-loader Flicker Prevention -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('webnex_session_visited')) {
+                document.documentElement.classList.add('preloader-hidden');
+            }
+        })();
+    </script>
+
+    <style>
+        .preloader-hidden #preloader {
+            display: none !important;
+        }
+
+        /* 3D Canvas Background */
+        #about-3d-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a0a2e 50%, #0f0a1a 100%);
+        }
+
+        /* Holographic Gradient Overlay */
+        .holo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(234, 179, 8, 0.1) 0%, transparent 50%);
+            animation: holoShift 10s ease-in-out infinite;
+        }
+
+        @keyframes holoShift {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* 3D Floating Cards */
+        .floating-3d-card {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.85), rgba(20, 20, 40, 0.95));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            z-index: 10;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(139, 92, 246, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-3d-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .floating-3d-card:hover::before {
+            left: 100%;
+        }
+
+        .floating-3d-card:hover {
+            transform: translateY(-15px) rotateX(5deg) scale(1.02);
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(139, 92, 246, 0.4),
+                0 0 100px rgba(6, 182, 212, 0.3);
+        }
+
+        /* 3D Text Shadow Effect */
+        .text-3d {
+            text-shadow:
+                0 1px 0 rgba(6, 182, 212, 0.5),
+                0 2px 0 rgba(139, 92, 246, 0.4),
+                0 3px 0 rgba(234, 179, 8, 0.3),
+                0 5px 10px rgba(0, 0, 0, 0.5),
+                0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Gradient Text with Animation */
+        .gradient-text-animated {
+            background: linear-gradient(45deg, #06b6d4, #8b5cf6, #eab308, #06b6d4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 4s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* 3D Icon Container */
+        .icon-3d {
+            font-size: 3rem;
+            display: inline-block;
+            transform-style: preserve-3d;
+            animation: float3d 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(139, 92, 246, 0.5));
+        }
+
+        @keyframes float3d {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateY(180deg);
+            }
+        }
+
+        /* Stats Counter with 3D Effect */
+        .stat-3d {
+            position: relative;
+            display: inline-block;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6, #eab308);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+            position: relative;
+            display: inline-block;
+            animation: pulse3d 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse3d {
+
+            0%,
+            100% {
+                transform: scale(1) translateZ(0);
+                filter: brightness(1);
+            }
+
+            50% {
+                transform: scale(1.05) translateZ(20px);
+                filter: brightness(1.2);
+            }
+        }
+
+        /* Value Cards Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .value-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .value-card:hover::after {
+            width: 300%;
+            height: 300%;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: rgba(6, 182, 212, 0.6);
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Process Timeline */
+        .process-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .process-step {
+            position: relative;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.6), rgba(30, 30, 60, 0.4));
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(180deg, #06b6d4, #8b5cf6, #eab308) 1;
+            border-radius: 0 16px 16px 0;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+        }
+
+        .process-step:hover {
+            transform: translateX(20px);
+            border-left-width: 8px;
+            box-shadow: -10px 10px 40px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Glowing Button */
+        .glow-btn {
+            position: relative;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+
+        .glow-btn:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 0 40px rgba(139, 92, 246, 0.8),
+                0 0 80px rgba(6, 182, 212, 0.5),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .glow-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            transform: scale(0);
+            transition: transform 0.5s;
+        }
+
+        .glow-btn:hover::before {
+            transform: scale(1);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-3d-card {
+                padding: 1.5rem;
+            }
+
+            .icon-3d {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scroll Reveal Animation - Fixed for visibility */
+        .reveal {
+            opacity: 1;
+            /* Was 0, changed to 1 to ensure visibility */
+            transform: translateY(0);
+            /* Was 50px, changed to 0 */
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* This class is added by JS, but we default to visible now */
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Particle Container */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero-about {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 8rem 2rem 4rem;
+            z-index: 100;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Navbar visibility fix */
+        .navbar {
+            position: fixed;
+            z-index: 1000 !important;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-about {
+                padding: 6rem 1rem 3rem;
+            }
+        }
+
+        /* Mission Vision Cards */
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Neon Glow Effect */
+        .neon-border {
+            position: relative;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.8), rgba(30, 30, 60, 0.6)) padding-box,
+                linear-gradient(135deg, #06b6d4, #8b5cf6) border-box;
+            border-radius: 20px;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6, #eab308);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .neon-border:hover::before {
+            opacity: 1;
+        }
+
+        /* Ensure content is visible */
+        body {
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .page-container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            padding-top: 0;
+        }
+
+        /* Make sure all text is visible */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        li {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Holographic Overlay -->
+    <div class="holo-overlay"></div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="about-3d-bg"></canvas>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo">WEBNEX</a>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="../index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html" class="active">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-about">
+        <div>
+            <h1 class="hero-title gradient-text-animated text-3d reveal">Who We Are</h1>
+            <p class="hero-subtitle reveal">Architects of the digital future, building tomorrow's web today with
+                cutting-edge 3D experiences.</p>
+        </div>
+    </section>
+
+    <div class="page-container">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+
+            <!-- Mission & Vision -->
+            <div class="mission-vision-grid reveal">
+                <div class="floating-3d-card neon-border">
+                    <div class="icon-3d">🚀</div>
+                    <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Our Mission</h3>
+                    <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                        At <strong style="color: #06b6d4;">WEBNEX</strong>, we exist to push the boundaries of what's
+                        possible on the web. Our
+                        mission is to empower businesses and individuals with cutting-edge digital solutions that not
+                        only meet today's needs but anticipate
+                        tomorrow's challenges.
+                    </p>
+                    <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">
+                        We believe that exceptional design paired with robust technology can transform how people
+                        interact
+                        with the digital world. Every line of code we write, every pixel we place, is driven by a
+                        commitment to excellence and innovation.
+                    </p>
+                </div>
+
+                <div class="floating-3d-card neon-border">
+                    <div class="icon-3d">🎯</div>
+                    <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Our Vision</h3>
+                    <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                        We envision a future where the web is more than a platform—it's an immersive, intelligent
+                        ecosystem.
+                        A place where AI, 3D graphics, and human creativity converge to create experiences that feel
+                        magical.
+                    </p>
+                    <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">
+                        By 2030, we aspire to be recognized globally as the go-to agency for brands that dare to be
+                        different, that refuse to settle for mediocrity, and that understand the power of a truly
+                        exceptional digital presence.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Story Section -->
+            <div class="floating-3d-card reveal"
+                style="margin: 4rem 0; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(6, 182, 212, 0.1));">
+                <div class="icon-3d">📖</div>
+                <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Our Story</h3>
+                <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                    WEBNEX was born in 2010 from a simple observation: <em style="color: #eab308;">most websites were
+                        boring</em>. While the
+                    technology existed to create stunning, interactive experiences, most companies settled for
+                    template-based, cookie-cutter
+                    designs that failed to capture their brand's unique essence.
+                </p>
+                <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">
+                    Our founders—a designer obsessed with cyberpunk aesthetics and a developer passionate about
+                    WebGL—decided to change that. They started small, building experimental projects that combined art
+                    and code in ways the web had
+                    rarely seen. Word spread quickly. Startups wanted in. Fortune 500s took notice.
+                </p>
+                <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8; margin-top: 1rem;">
+                    Today, we're a team of 50+ designers, developers, strategists, and dreamers working from offices in
+                    San Francisco, London, and Tokyo. But our core philosophy remains unchanged: <strong
+                        style="color: #8b5cf6;">Never settle. Always innovate.</strong>
+                </p>
+            </div>
+
+            <!-- Core Values -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 3rem;"
+                    class="gradient-text-animated text-3d">Our Core Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">💎</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Excellence</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">We don't do "good enough." Every project receives
+                            the same meticulous
+                            attention to detail, whether it's a startup MVP or an enterprise platform.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">⚡</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Innovation</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">We actively experiment with emerging
+                            technologies—AI, AR, VR, Web3—to
+                            stay ahead of the curve and deliver future-proof solutions.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🤝</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Collaboration</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">Your success is our success. We work as true
+                            partners, bringing
+                            transparency, communication, and expertise to every engagement.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🎨</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Creativity</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">Design isn't just aesthetics—it's problem-solving.
+                            We approach every
+                            challenge with fresh eyes and unconventional thinking.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🌍</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Impact</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">We measure success not just in metrics, but in the
+                            real-world impact
+                            our work has on businesses and their users.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">📚</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Learning</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">The web evolves daily. So do we. Continuous
+                            learning and adaptation
+                            are baked into our DNA.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div class="floating-3d-card" style="text-align: center; padding: 3rem 2rem;">
+                        <div class="stat-3d">
+                            <div class="stat-number" data-target="15">0</div>
+                        </div>
+                        <p style="font-size: 1.3rem; color: #94a3b8; margin-top: 1rem;">Years Experience</p>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 3rem 2rem;">
+                        <div class="stat-3d">
+                            <div class="stat-number" data-target="50">0</div>
+                        </div>
+                        <p style="font-size: 1.3rem; color: #94a3b8; margin-top: 1rem;">Team Members</p>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 3rem 2rem;">
+                        <div class="stat-3d">
+                            <div class="stat-number" data-target="500">0</div>
+                        </div>
+                        <p style="font-size: 1.3rem; color: #94a3b8; margin-top: 1rem;">Projects Delivered</p>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 3rem 2rem;">
+                        <div class="stat-3d">
+                            <div class="stat-number" data-target="100">0</div>
+                        </div>
+                        <p style="font-size: 1.3rem; color: #94a3b8; margin-top: 1rem;">Client Satisfaction %</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process Timeline -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 3rem;"
+                    class="gradient-text-animated text-3d">How We Work</h2>
+                <div class="process-timeline">
+                    <div class="process-step reveal">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #06b6d4;">1️⃣ Discovery & Strategy
+                        </h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">
+                            We start by understanding your business, your users, and your competition. Through
+                            workshops, interviews, and research, we develop a strategic foundation that guides
+                            everything that follows.
+                        </p>
+                    </div>
+                    <div class="process-step reveal">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #8b5cf6;">2️⃣ Design & Prototyping
+                        </h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">
+                            Our designers create high-fidelity mockups and interactive prototypes. You'll see exactly
+                            how your site will look and feel before a single line of code is written.
+                        </p>
+                    </div>
+                    <div class="process-step reveal">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #eab308;">3️⃣ Development &
+                            Integration</h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">
+                            Developers bring the vision to life using modern frameworks and best practices. We build for
+                            performance, accessibility, and scalability from day one.
+                        </p>
+                    </div>
+                    <div class="process-step reveal">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #06b6d4;">4️⃣ Testing & Refinement
+                        </h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">
+                            Rigorous QA testing ensures everything works flawlessly across devices and browsers. User
+                            testing validates that the experience meets real-world needs.
+                        </p>
+                    </div>
+                    <div class="process-step reveal">
+                        <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: #8b5cf6;">5️⃣ Launch & Growth</h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">
+                            We don't disappear after launch. We monitor performance, gather analytics, and continuously
+                            optimize to ensure your digital presence keeps improving.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technologies We Use -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 3rem;"
+                    class="gradient-text-animated text-3d">Technologies We Master</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">⚛️</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Frontend Frameworks</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">React, Vue.js, Next.js, Svelte, Angular, Three.js,
+                            GSAP, Framer Motion - we master them all to create stunning interactive experiences.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🔧</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Backend & DevOps</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">Node.js, Python, Docker, Kubernetes, AWS, Azure,
+                            serverless architecture - scalable solutions built for the future.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🎨</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Design Tools</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">Figma, Adobe Creative Suite, Blender, Cinema 4D,
+                            Spline - creating pixel-perfect designs and breathtaking 3D visuals.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🤖</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">AI & Machine Learning</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">TensorFlow, PyTorch, OpenAI APIs, custom ML models
+                            - integrating intelligent features that truly add value.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">🔐</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Blockchain & Web3</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">Ethereum, Solidity, Smart Contracts, NFTs, DeFi -
+                            building the decentralized future of the web.</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="icon-3d" style="font-size: 2.5rem;">📱</div>
+                        <h3 style="font-size: 1.8rem; margin: 1rem 0; color: #fff;">Mobile Development</h3>
+                        <p style="color: #cbd5e1; line-height: 1.7;">React Native, Flutter, Swift, Kotlin - native
+                            performance with cross-platform efficiency.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Awards & Recognition -->
+            <div class="floating-3d-card reveal"
+                style="margin: 6rem 0; background: linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(139, 92, 246, 0.1));">
+                <div class="icon-3d">🏆</div>
+                <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Awards & Recognition</h3>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div>
+                        <h4 style="color: #eab308; font-size: 1.4rem; margin-bottom: 0.5rem;">🌟 Awwwards</h4>
+                        <p style="color: #cbd5e1;">15 Site of the Day awards, 8 Developer Awards, 5 Mobile Excellence
+                            recognitions</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #eab308; font-size: 1.4rem; margin-bottom: 0.5rem;">🎖️ FWA</h4>
+                        <p style="color: #cbd5e1;">Featured 23 times as Site of the Day, with 12 special jury mentions
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: #eab308; font-size: 1.4rem; margin-bottom: 0.5rem;">🥇 Webby Awards</h4>
+                        <p style="color: #cbd5e1;">3 Webby wins in Technical Achievement, 7 nominations across multiple
+                            categories</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #eab308; font-size: 1.4rem; margin-bottom: 0.5rem;">💫 CSS Design Awards</h4>
+                        <p style="color: #cbd5e1;">Best UI Design 2023, Innovation Award 2022, UX Design Award 2021</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Industries -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 2rem;"
+                    class="gradient-text-animated text-3d">Industries We Serve</h2>
+                <p
+                    style="text-align: center; color: #94a3b8; font-size: 1.2rem; max-width: 800px; margin: 0 auto 3rem;">
+                    From startups to Fortune 500 companies, we've delivered exceptional digital experiences across
+                    diverse sectors.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div class="floating-3d-card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">💰</div>
+                        <h4 style="color: #fff; font-size: 1.2rem;">FinTech & Banking</h4>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🛍️</div>
+                        <h4 style="color: #fff; font-size: 1.2rem;">E-Commerce & Retail</h4>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🏥</div>
+                        <h4 style="color: #fff; font-size: 1.2rem;">Healthcare & MedTech</h4>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+                        <h4 style="color: #fff; font-size: 1.2rem;">Education & EdTech</h4>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎮</div>
+                        <h4 style="color: #fff; font-size: 1.2rem;">Gaming & Entertainment</h4>
+                    </div>
+                    <div class="floating-3d-card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+                        <h4 style="color: #fff; font-size: 1.2rem;">SaaS & Tech Startups</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Our Approach -->
+            <div class="floating-3d-card reveal"
+                style="margin: 6rem 0; background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.15));">
+                <div class="icon-3d">🧠</div>
+                <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Our Unique Approach</h3>
+                <div style="display: grid; gap: 2rem; margin-top: 2rem;">
+                    <div>
+                        <h4 style="color: #06b6d4; font-size: 1.5rem; margin-bottom: 0.8rem;">🎯 User-Centric Design
+                        </h4>
+                        <p style="color: #cbd5e1; line-height: 1.8;">We start every project with deep user research and
+                            persona development. Understanding your audience's needs, pain points, and behaviors allows
+                            us to create experiences that truly resonate.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #8b5cf6; font-size: 1.5rem; margin-bottom: 0.8rem;">⚡ Performance First</h4>
+                        <p style="color: #cbd5e1; line-height: 1.8;">Beautiful designs mean nothing if they're slow. We
+                            optimize every asset, leverage modern web technologies like lazy loading and code splitting,
+                            and ensure your site loads in under 2 seconds.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #eab308; font-size: 1.5rem; margin-bottom: 0.8rem;">♿ Accessibility Matters
+                        </h4>
+                        <p style="color: #cbd5e1; line-height: 1.8;">We build to WCAG 2.1 AA standards as a baseline.
+                            Every user, regardless of ability, deserves an excellent experience. Keyboard navigation,
+                            screen reader support, and proper contrast ratios are non-negotiable.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #06b6d4; font-size: 1.5rem; margin-bottom: 0.8rem;">🔄 Agile & Iterative</h4>
+                        <p style="color: #cbd5e1; line-height: 1.8;">We work in sprints, delivering value incrementally.
+                            You'll see progress every week, provide feedback continuously, and have full visibility into
+                            the development process through our project management tools.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Culture -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 3rem;"
+                    class="gradient-text-animated text-3d">Our Culture & Values in Action</h2>
+                <div class="mission-vision-grid">
+                    <div class="floating-3d-card neon-border">
+                        <div class="icon-3d">🌈</div>
+                        <h3 style="font-size: 1.8rem; margin: 1.5rem 0 1rem; color: #fff;">Diversity & Inclusion</h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">Our team represents 20+ nationalities, 15+
+                            languages, and a beautiful spectrum of backgrounds and perspectives. We believe diverse
+                            teams build better products.</p>
+                    </div>
+                    <div class="floating-3d-card neon-border">
+                        <div class="icon-3d">🏖️</div>
+                        <h3 style="font-size: 1.8rem; margin: 1.5rem 0 1rem; color: #fff;">Work-Life Balance</h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">Unlimited PTO, flexible remote work, mental health
+                            days, and quarterly team retreats. Happy teams create exceptional work.</p>
+                    </div>
+                    <div class="floating-3d-card neon-border">
+                        <div class="icon-3d">📖</div>
+                        <h3 style="font-size: 1.8rem; margin: 1.5rem 0 1rem; color: #fff;">Continuous Learning</h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">$5,000 annual learning budget per employee, weekly
+                            tech talks, conference attendance, and access to premium courses and certifications.</p>
+                    </div>
+                    <div class="floating-3d-card neon-border">
+                        <div class="icon-3d">🌱</div>
+                        <h3 style="font-size: 1.8rem; margin: 1.5rem 0 1rem; color: #fff;">Sustainability</h3>
+                        <p style="color: #cbd5e1; line-height: 1.8;">Carbon-neutral operations, green hosting partners,
+                            paperless workflows, and we offset 200% of our carbon footprint annually.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Presence -->
+            <div class="floating-3d-card reveal"
+                style="margin: 6rem 0; background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(234, 179, 8, 0.1));">
+                <div class="icon-3d">🌍</div>
+                <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Global Reach, Local Expertise</h3>
+                <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                    With offices in San Francisco, London, and Tokyo, we offer 24/7 support and culturally informed
+                    design for global brands. Our distributed team structure means we're always online, always ready to
+                    help.
+                </p>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🇺🇸</div>
+                        <h4 style="color: #06b6d4; font-size: 1.3rem;">San Francisco</h4>
+                        <p style="color: #94a3b8;">Innovation Hub</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🇬🇧</div>
+                        <h4 style="color: #8b5cf6; font-size: 1.3rem;">London</h4>
+                        <p style="color: #94a3b8;">European Headquarters</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🇯🇵</div>
+                        <h4 style="color: #eab308; font-size: 1.3rem;">Tokyo</h4>
+                        <p style="color: #94a3b8;">APAC Operations</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose WEBNEX -->
+            <div class="floating-3d-card reveal"
+                style="margin: 6rem 0; background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(139, 92, 246, 0.08));">
+                <div class="icon-3d">❓</div>
+                <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Why Companies Choose WEBNEX</h3>
+                <ul
+                    style="margin-top: 1.5rem; color: #cbd5e1; font-size: 1.05rem; line-height: 2.2; padding-left: 1.5rem;">
+                    <li><strong style="color: #06b6d4;">Proven Track Record:</strong> 500+ successful projects across
+                        industries from fintech to fashion, with a 98% client retention rate.</li>
+                    <li><strong style="color: #8b5cf6;">Technical Excellence:</strong> Our code is clean, documented,
+                        and built following industry best practices. AAA Lighthouse scores on all deliverables.</li>
+                    <li><strong style="color: #eab308;">Design Awards:</strong> Multiple Awwwards, FWA, and Webby
+                        recognitions for our work. We don't just build websites—we create award-winning experiences.
+                    </li>
+                    <li><strong style="color: #06b6d4;">Transparent Process:</strong> No surprises. You'll know exactly
+                        what's happening at every stage through our custom client dashboard with real-time project
+                        updates.</li>
+                    <li><strong style="color: #8b5cf6;">Post-Launch Support:</strong> We're here for the long haul with
+                        maintenance packages, growth services, and continuous optimization based on real user data.</li>
+                    <li><strong style="color: #eab308;">Competitive Pricing:</strong> Enterprise quality at
+                        startup-friendly rates. Flexible payment plans and ROI-focused pricing models available.</li>
+                    <li><strong style="color: #06b6d4;">Speed to Market:</strong> Our agile process means faster
+                        launches without compromising quality. From kickoff to live site in as little as 6-8 weeks.</li>
+                    <li><strong style="color: #8b5cf6;">Future-Proof Solutions:</strong> We build with scalability in
+                        mind. Your platform will grow with your business without requiring a complete rebuild.</li>
+                </ul>
+            </div>
+
+            <!-- Client Testimonials Preview -->
+            <div class="reveal" style="margin: 6rem 0;">
+                <h2 style="text-align: center; font-size: 3rem; margin-bottom: 3rem;"
+                    class="gradient-text-animated text-3d">What Clients Say</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div class="floating-3d-card">
+                        <div style="color: #eab308; font-size: 2rem; margin-bottom: 1rem;">⭐⭐⭐⭐⭐</div>
+                        <p style="color: #cbd5e1; font-style: italic; line-height: 1.8; margin-bottom: 1.5rem;">
+                            "WEBNEX transformed our entire digital presence. The 3D animations and interactive elements
+                            they created helped us stand out in a crowded market. Revenue up 340% since launch."
+                        </p>
+                        <p style="color: #94a3b8; font-weight: 600;">— Sarah Chen, CEO at TechFlow</p>
+                    </div>
+                    <div class="floating-3d-card">
+                        <div style="color: #eab308; font-size: 2rem; margin-bottom: 1rem;">⭐⭐⭐⭐⭐</div>
+                        <p style="color: #cbd5e1; font-style: italic; line-height: 1.8; margin-bottom: 1.5rem;">
+                            "Best agency we've ever worked with. They delivered on time, on budget, and the quality
+                            exceeded our wildest expectations. The site won a Webby Award!"
+                        </p>
+                        <p style="color: #94a3b8; font-weight: 600;">— Marcus Rodriguez, CMO at FinanceHub</p>
+                    </div>
+                    <div class="floating-3d-card">
+                        <div style="color: #eab308; font-size: 2rem; margin-bottom: 1rem;">⭐⭐⭐⭐⭐</div>
+                        <p style="color: #cbd5e1; font-style: italic; line-height: 1.8; margin-bottom: 1.5rem;">
+                            "The team's expertise in both design and development is unmatched. They solved complex
+                            technical challenges while creating a beautiful, user-friendly experience."
+                        </p>
+                        <p style="color: #94a3b8; font-weight: 600;">— Emily Watson, Product Lead at MediCare Pro</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Partnership Opportunities -->
+            <div class="floating-3d-card reveal"
+                style="margin: 6rem 0; background: linear-gradient(135deg, rgba(234, 179, 8, 0.12), rgba(6, 182, 212, 0.1));">
+                <div class="icon-3d">🤝</div>
+                <h3 style="font-size: 2rem; margin: 1.5rem 0 1rem; color: #fff;">Partnership Opportunities</h3>
+                <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                    We're always looking for strategic partnerships with complementary agencies, technology providers,
+                    and innovation-driven companies. Whether you need white-label development, co-creation
+                    opportunities, or technical consulting, let's explore how we can grow together.
+                </p>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div>
+                        <h4 style="color: #eab308; font-size: 1.4rem; margin-bottom: 0.8rem;">🏢 Agency Partners</h4>
+                        <p style="color: #cbd5e1;">White-label development services for marketing agencies looking to
+                            expand their digital capabilities.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #06b6d4; font-size: 1.4rem; margin-bottom: 0.8rem;">💼 Technology Partners
+                        </h4>
+                        <p style="color: #cbd5e1;">Integration expertise and co-selling opportunities with SaaS and
+                            platform providers.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #8b5cf6; font-size: 1.4rem; margin-bottom: 0.8rem;">🎓 Educational Partners
+                        </h4>
+                        <p style="color: #cbd5e1;">Workshops, bootcamps, and training programs for universities and
+                            coding schools.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="floating-3d-card reveal"
+                style="text-align: center; padding: 4rem 3rem; margin: 6rem 0; background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.15));">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;" class="gradient-text-animated">Ready to Work
+                    Together?</h2>
+                <p
+                    style="font-size: 1.2rem; margin-bottom: 2.5rem; color: #cbd5e1; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Let's discuss how WEBNEX can help bring your digital vision to life with cutting-edge 3D
+                    experiences.
+                </p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="contact.html" class="glow-btn" style="text-decoration: none; display: inline-block;">Start
+                        a Project</a>
+                    <a href="projects.html" class="btn btn-outline"
+                        style="padding: 1.2rem 3rem; font-size: 1.1rem;">View Our Work</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">WEBNEX</a>
+                <p>Redefining the digital landscape with premium design and bleeding-edge technology.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WEBNEX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+    <!-- 3D Background Animation Script -->
+    <script>
+        // Enhanced Professional 3D Background (More Components, More Impressive)
+        if (typeof THREE !== 'undefined') {
+            const canvas = document.getElementById('about-3d-bg');
+            if (!canvas) {
+                console.warn('Canvas not found');
+            } else {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                // Enhanced Lighting (Brighter for better visibility)
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+                scene.add(ambientLight);
+
+                const pointLight1 = new THREE.PointLight(0x06b6d4, 3.5, 120);
+                pointLight1.position.set(30, 20, 20);
+                scene.add(pointLight1);
+
+                const pointLight2 = new THREE.PointLight(0x8b5cf6, 3.5, 120);
+                pointLight2.position.set(-30, -20, 20);
+                scene.add(pointLight2);
+
+                const pointLight3 = new THREE.PointLight(0xeab308, 2.5, 100);
+                pointLight3.position.set(0, 30, -15);
+                scene.add(pointLight3);
+
+                // MORE 3D SHAPES with BRIGHTER, EYE-CATCHING colors
+                const geometries = [
+                    new THREE.TorusGeometry(10, 3, 16, 100),
+                    new THREE.IcosahedronGeometry(7, 0),
+                    new THREE.OctahedronGeometry(8, 0),
+                    new THREE.DodecahedronGeometry(6, 0),
+                    new THREE.TorusKnotGeometry(6, 2, 100, 16),
+                    new THREE.TetrahedronGeometry(9, 0),
+                    new THREE.BoxGeometry(10, 10, 10),
+                    new THREE.ConeGeometry(7, 12, 8),
+                    new THREE.SphereGeometry(6, 16, 16),
+                    new THREE.TorusGeometry(8, 2, 12, 80)
+                ];
+
+                const materials = [
+                    new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.35, emissive: 0x06b6d4, emissiveIntensity: 0.2 }),
+                    new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.38, emissive: 0x8b5cf6, emissiveIntensity: 0.22 }),
+                    new THREE.MeshPhongMaterial({ color: 0xeab308, wireframe: true, transparent: true, opacity: 0.32, emissive: 0xeab308, emissiveIntensity: 0.18 }),
+                    new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: false, transparent: true, opacity: 0.18, emissive: 0x06b6d4, emissiveIntensity: 0.12 }),
+                    new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.34, emissive: 0x8b5cf6, emissiveIntensity: 0.19 }),
+                    new THREE.MeshPhongMaterial({ color: 0xeab308, wireframe: false, transparent: true, opacity: 0.2, emissive: 0xeab308, emissiveIntensity: 0.14 }),
+                    new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.36, emissive: 0x06b6d4, emissiveIntensity: 0.21 }),
+                    new THREE.MeshPhongMaterial({ color: 0x8b5cf6, wireframe: false, transparent: true, opacity: 0.22, emissive: 0x8b5cf6, emissiveIntensity: 0.15 }),
+                    new THREE.MeshPhongMaterial({ color: 0xeab308, wireframe: true, transparent: true, opacity: 0.35, emissive: 0xeab308, emissiveIntensity: 0.2 }),
+                    new THREE.MeshPhongMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.32, emissive: 0x06b6d4, emissiveIntensity: 0.18 })
+                ];
+
+                const meshes = [];
+                const positions = [
+                    { x: 30, y: 20, z: -35 },
+                    { x: -35, y: -18, z: -28 },
+                    { x: 5, y: 25, z: -42 },
+                    { x: -28, y: 22, z: -30 },
+                    { x: 38, y: -20, z: -38 },
+                    { x: 18, y: -28, z: -40 },
+                    { x: -38, y: 28, z: -32 },
+                    { x: 25, y: 35, z: -36 },
+                    { x: -15, y: -32, z: -26 },
+                    { x: 10, y: 12, z: -48 }
+                ];
+
+                geometries.forEach((geo, i) => {
+                    const mesh = new THREE.Mesh(geo, materials[i]);
+                    mesh.position.set(positions[i].x, positions[i].y, positions[i].z);
+                    mesh.userData = {
+                        initialX: positions[i].x,
+                        initialY: positions[i].y,
+                        initialZ: positions[i].z,
+                        floatSpeed: 0.3 + Math.random() * 0.5
+                    };
+                    meshes.push(mesh);
+                    scene.add(mesh);
+                });
+
+                // Connection Lines (for "network" effect)
+                const linesGroup = new THREE.Group();
+                const lineMaterial = new THREE.LineBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.1
+                });
+
+                // Create lines connecting nearby shapes
+                for (let i = 0; i < meshes.length; i++) {
+                    for (let j = i + 1; j < meshes.length; j++) {
+                        const distance = meshes[i].position.distanceTo(meshes[j].position);
+                        if (distance < 30) {
+                            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                                meshes[i].position,
+                                meshes[j].position
+                            ]);
+                            const line = new THREE.Line(lineGeometry, lineMaterial);
+                            linesGroup.add(line);
+                        }
+                    }
+                }
+                scene.add(linesGroup);
+
+                // MORE PARTICLES (3000 for fuller background)
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particleCount = 3000;
+                const posArray = new Float32Array(particleCount * 3);
+                const colorArray = new Float32Array(particleCount * 3);
+
+                const color1 = new THREE.Color(0x06b6d4);
+                const color2 = new THREE.Color(0x8b5cf6);
+                const color3 = new THREE.Color(0xeab308);
+
+                for (let i = 0; i < particleCount; i++) {
+                    posArray[i * 3] = (Math.random() - 0.5) * 180;
+                    posArray[i * 3 + 1] = (Math.random() - 0.5) * 180;
+                    posArray[i * 3 + 2] = (Math.random() - 0.5) * 180;
+
+                    // Random color for each particle
+                    const rand = Math.random();
+                    const color = rand < 0.33 ? color1 : (rand < 0.66 ? color2 : color3);
+                    colorArray[i * 3] = color.r;
+                    colorArray[i * 3 + 1] = color.g;
+                    colorArray[i * 3 + 2] = color.b;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.18,
+                    vertexColors: true,
+                    transparent: true,
+                    opacity: 0.7,
+                    blending: THREE.AdditiveBlending
+                });
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+
+                // Grid Helper (subtle background grid)
+                const gridHelper = new THREE.GridHelper(100, 20, 0x06b6d4, 0x8b5cf6);
+                gridHelper.material.transparent = true;
+                gridHelper.material.opacity = 0.05;
+                gridHelper.position.y = -30;
+                scene.add(gridHelper);
+
+                // Fixed camera position (NO SCROLL CHANGES)
+                camera.position.set(0, 0, 50);
+
+                // Mouse movement (subtle)
+                let mouseX = 0;
+                let mouseY = 0;
+
+                document.addEventListener('mousemove', (event) => {
+                    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+
+                // Scroll tracking for interactive scaling
+                let scrollProgress = 0;
+
+                window.addEventListener('scroll', () => {
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    scrollProgress = window.scrollY / maxScroll;
+                });
+
+                // Animation loop
+                const clock = new THREE.Clock();
+
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    const elapsed = clock.getElapsedTime();
+
+                    // Calculate scale based on scroll (1.2 at top -> 0.5 at bottom)
+                    const scaleValue = 1.2 - (scrollProgress * 0.7);
+
+                    // Calculate Z-distance based on scroll (shapes move away as you scroll)
+                    const zOffset = scrollProgress * -20; // Move up to 20 units away
+
+                    // Rotate and float meshes with scroll-based scaling and distance
+                    meshes.forEach((mesh, i) => {
+                        mesh.rotation.x = elapsed * (0.12 + i * 0.04);
+                        mesh.rotation.y = elapsed * (0.18 + i * 0.03);
+                        mesh.rotation.z = elapsed * (0.08 + i * 0.05);
+
+                        // Gentle floating motion
+                        mesh.position.y = mesh.userData.initialY + Math.sin(elapsed * mesh.userData.floatSpeed) * 3;
+
+                        // Move shapes away as you scroll
+                        mesh.position.z = mesh.userData.initialZ + zOffset;
+
+                        // Interactive scaling based on scroll
+                        mesh.scale.setScalar(scaleValue);
+                    });
+
+                    // Rotate particles slowly
+                    particlesMesh.rotation.y = elapsed * 0.04;
+                    particlesMesh.rotation.x = elapsed * 0.02;
+
+                    // Animate lights
+                    pointLight1.position.x = 30 + Math.sin(elapsed * 0.5) * 10;
+                    pointLight2.position.y = -20 + Math.cos(elapsed * 0.6) * 10;
+                    pointLight3.position.z = -15 + Math.sin(elapsed * 0.4) * 8;
+
+                    // Subtle camera movement from mouse (NO scroll movement)
+                    camera.position.x += (mouseX * 6 - camera.position.x) * 0.05;
+                    camera.position.y += (mouseY * 6 - camera.position.y) * 0.05;
+
+                    camera.lookAt(scene.position);
+
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+
+                // Responsive
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            }
+        }
+    </script>
+
+    <!-- Scroll Reveal & Stats Counter -->
+    <script>
+        // Scroll Reveal Animation
+        gsap.registerPlugin(ScrollTrigger);
+
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach((element, index) => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.1,
+                ease: 'power3.out'
+            });
+        });
+
+        // Animated Counter for Stats
+        const statNumbers = document.querySelectorAll('.stat-number');
+
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-target'));
+            let hasAnimated = false;
+
+            ScrollTrigger.create({
+                trigger: stat,
+                start: 'top 80%',
+                onEnter: () => {
+                    if (!hasAnimated) {
+                        animateCounter(stat, 0, target, 2000);
+                        hasAnimated = true;
+                    }
+                }
+            });
+        });
+
+        function animateCounter(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current) + (end === 100 ? '' : '+');
+            }, 16);
+        }
+
+        // 3D Card Tilt Effect
+        const cards = document.querySelectorAll('.floating-3d-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+            });
+        });
+    </script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

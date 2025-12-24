@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | WEBNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- GSAP & Lenis for smooth magic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- Pre-loader Flicker Prevention -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('webnex_session_visited')) {
+                document.documentElement.classList.add('preloader-hidden');
+            }
+        })();
+    </script>
+
+    <style>
+        .preloader-hidden #preloader {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="logo">WEBNEX</a>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="../index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="section-title">
+            <h1 class="gradient-text">Selected Works</h1>
+            <p>A showcase of our most ambitious projects.</p>
+        </div>
+
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));">
+            <!-- Project 1 -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <!-- Add your video URL in src="" below -->
+                    <video src="../videos/vid1.mp4" poster="https://placehold.co/800x450/111/fff?text=Cyber+Commerce"
+                        loop muted playsinline></video>
+                    <div class="play-button"></div>
+                </div>
+                <h3>3d Portfolio</h3>
+                <p>A next-gen portfolio platform with 3D product previews. Improved conversion by 40%.</p>
+                <div style="margin-top: 1rem;">
+                    <span
+                        style="font-size: 0.8rem; border:1px solid #444; padding: 2px 8px; border-radius: 4px; margin-right: 5px;">React</span>
+                    <span
+                        style="font-size: 0.8rem; border:1px solid #444; padding: 2px 8px; border-radius: 4px; margin-right: 5px;">Three.js</span>
+                    <span
+                        style="font-size: 0.8rem; border:1px solid #444; padding: 2px 8px; border-radius: 4px;">Node.js</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <!-- Add your video URL in src="" below -->
+                    <video src="../videos/vid2.mp4" poster="https://placehold.co/800x450/111/fff?text=Neon+Finance" loop
+                        muted playsinline></video>
+                    <div class="play-button"></div>
+                </div>
+                <h3>Hotstar Clone</h3>
+                <p>Real-time crypto dashboard with data visualization and deep dark mode UI.</p>
+                <div style="margin-top: 1rem;">
+                    <span
+                        style="font-size: 0.8rem; border:1px solid #444; padding: 2px 8px; border-radius: 4px; margin-right: 5px;">Vue</span>
+                    <span
+                        style="font-size: 0.8rem; border:1px solid #444; padding: 2px 8px; border-radius: 4px;">D3.js</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <!-- Add your video URL in src="" below -->
+                    <video src="../videos/vid3.mp4" poster="https://placehold.co/800x450/111/fff?text=Orbit+AI" loop
+                        muted playsinline></video>
+                    <div class="play-button"></div>
+                </div>
+                <h3>Modern Portfolio</h3>
+                <p>Landing page for an AI startup featuring interactive particles and smooth referencing.</p>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <!-- Add your video URL in src="" below -->
+                    <video src="../videos/vid4.mp4" poster="https://placehold.co/800x450/111/fff?text=Nexus+Gaming" loop
+                        muted playsinline></video>
+                    <div class="play-button"></div>
+                </div>
+                <h3>Nexus Gaming</h3>
+                <p>Community hub for gamers with integrated twitch streams and dynamic chat.</p>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <!-- Add your video URL in src="" below -->
+                    <video src="../videos/vid5.mp4" poster="https://placehold.co/800x450/111/fff?text=Virtual+Estate"
+                        loop muted playsinline></video>
+                    <div class="play-button"></div>
+                </div>
+                <h3>Virtual Estate</h3>
+                <p>VR real estate tours allowing clients to visit properties from anywhere.</p>
+                <div style="margin-top: 1rem;">
+                    <span
+                        style="font-size: 0.8rem; border:1px solid #444; padding: 2px 8px; border-radius: 4px;">WebXR</span>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="glass-card">
+                <div class="video-container">
+                    <!-- Add your video URL in src="" below -->
+                    <video src="../videos/vid6.mp4" poster="https://placehold.co/800x450/111/fff?text=FitSync+Pro" loop
+                        muted playsinline></video>
+                    <div class="play-button"></div>
+                </div>
+                <h3>Dragon Cursor</h3>
+                <p>Dragon Cursor application with AR posture correction.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">WEBNEX</a>
+                <p>Redefining the digital landscape with premium design and bleeding-edge technology.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WEBNEX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Video hover functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoContainers = document.querySelectorAll('.video-container');
+
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+
+                if (video && video.src) {
+                    // Hover in - play video
+                    container.addEventListener('mouseenter', function () {
+                        video.play();
+                    });
+
+                    // Hover out - pause and reset video
+                    container.addEventListener('mouseleave', function () {
+                        video.pause();
+                        video.currentTime = 0;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

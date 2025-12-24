@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | WEBNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cursor.css">
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- Pre-loader Flicker Prevention -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('webnex_session_visited')) {
+                document.documentElement.classList.add('preloader-hidden');
+            }
+        })();
+    </script>
+
+    <style>
+        .preloader-hidden #preloader {
+            display: none !important;
+        }
+
+        /* 3D Canvas Background */
+        #services-3d-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Enhanced Service Cards */
+        .services-container {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .service-card {
+            background: rgba(20, 20, 40, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--primary-color);
+            background: rgba(20, 20, 40, 0.7);
+            box-shadow: 0 20px 60px rgba(6, 182, 212, 0.3),
+                0 0 80px rgba(139, 92, 246, 0.2);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+        }
+
+        .service-card:hover .service-icon {
+            transform: rotate(360deg) scale(1.1);
+            box-shadow: 0 15px 40px rgba(6, 182, 212, 0.5);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover h3 {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .service-card p {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .service-features li {
+            color: #cbd5e1;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .service-card .btn {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            padding: 0.7rem 1.5rem;
+        }
+
+        /* Grid Layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Rotating Border Effect */
+        @keyframes rotateBorder {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg,
+                    var(--primary-color),
+                    var(--secondary-color),
+                    var(--accent-color),
+                    var(--primary-color));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            animation: rotateBorder 3s linear infinite;
+        }
+
+        .service-card:hover::after {
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="services-3d-bg"></canvas>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo">WEBNEX</a>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="../index.html">Home</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="services-container">
+        <div class="section-title" style="text-align: center; margin-bottom: 4rem;">
+            <h1 class="gradient-text" style="font-size: 3.5rem; margin-bottom: 1rem;">Our Services</h1>
+            <p style="font-size: 1.2rem; opacity: 0.8;">Comprehensive digital solutions tailored for the modern age.</p>
+        </div>
+
+        <div class="card-grid">
+            <!-- Web Development -->
+            <div class="service-card">
+                <div class="service-icon">🌐</div>
+                <h3>Web Development</h3>
+                <p>High-performance, scalable websites built with cutting-edge technologies that drive results.</p>
+                <ul class="service-features">
+                    <li>React, Vue & Next.js Development</li>
+                    <li>WebGL & Three.js Integration</li>
+                    <li>Progressive Web Apps (PWA)</li>
+                    <li>Lightning-Fast Performance</li>
+                    <li>SEO & Analytics Ready</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- UI/UX Design -->
+            <div class="service-card">
+                <div class="service-icon">🎨</div>
+                <h3>UI/UX Design</h3>
+                <p>User-centric interfaces that captivate, engage, and convert with stunning visual appeal.</p>
+                <ul class="service-features">
+                    <li>User Research & Testing</li>
+                    <li>Interactive Prototypes</li>
+                    <li>Design Systems & Guidelines</li>
+                    <li>Accessibility First</li>
+                    <li>Responsive & Adaptive Design</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- 3D Experiences -->
+            <div class="service-card">
+                <div class="service-icon">🎭</div>
+                <h3>3D Experiences</h3>
+                <p>Immersive 3D web experiences that bring your brand to life and create lasting impressions.</p>
+                <ul class="service-features">
+                    <li>Three.js & WebGL Magic</li>
+                    <li>Product Configurators</li>
+                    <li>Interactive Storytelling</li>
+                    <li>AR/VR Integration</li>
+                    <li>Real-time 3D Rendering</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- Brand Identity -->
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>Brand Identity</h3>
+                <p>Futuristic branding packages that make your business stand out in the digital landscape.</p>
+                <ul class="service-features">
+                    <li>Logo & Visual Identity</li>
+                    <li>Typography & Color Systems</li>
+                    <li>Brand Guidelines</li>
+                    <li>Marketing Collateral</li>
+                    <li>Social Media Assets</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- SEO & Marketing -->
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h3>SEO & Marketing</h3>
+                <p>Data-driven strategies that boost visibility, drive traffic, and maximize conversions.</p>
+                <ul class="service-features">
+                    <li>Technical SEO Optimization</li>
+                    <li>Content Strategy</li>
+                    <li>Performance Analytics</li>
+                    <li>Conversion Rate Optimization</li>
+                    <li>Social Media Management</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline">Get Started</a>
+            </div>
+
+            <!-- Mobile Apps -->
+            <div class="service-card">
+                <div class="service-icon">📱</div>
+                <h3>Mobile Apps</h3>
+                <p>Cross-platform mobile applications delivering seamless experiences on any device.</p>
+                <ul class="service-features">
+                    <li>React Native & Flutter</li>
+                    <li>iOS & Android Native</li>
+                    <li>Push Notifications</li>
+                    <li>Offline-First Architecture</li>
+                    <li>App Store Optimization</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">WEBNEX</a>
+                <p>Redefining the digital landscape with premium design and bleeding-edge technology.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WEBNEX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+
+    <!-- Advanced 3D Background Script -->
+    <script>
+        // Initialize Scene
+        const canvas = document.getElementById('services-3d-bg');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lighting System
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0x06b6d4, 3, 150);
+        pointLight1.position.set(30, 30, 30);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0x8b5cf6, 3, 150);
+        pointLight2.position.set(-30, -30, 30);
+        scene.add(pointLight2);
+
+        const pointLight3 = new THREE.PointLight(0xeab308, 2, 100);
+        pointLight3.position.set(0, 40, -30);
+        scene.add(pointLight3);
+
+        // Complex Geometric Structures
+        const shapes = [];
+
+        // Dodecahedron
+        const dodecaGeo = new THREE.DodecahedronGeometry(12, 0);
+        const dodecaMat = new THREE.MeshPhongMaterial({
+            color: 0x06b6d4,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const dodecahedron = new THREE.Mesh(dodecaGeo, dodecaMat);
+        dodecahedron.position.set(-20, 15, -20);
+        scene.add(dodecahedron);
+        shapes.push({ mesh: dodecahedron, speed: { x: 0.002, y: 0.003, z: 0.001 } });
+
+        // Octahedron
+        const octaGeo = new THREE.OctahedronGeometry(10, 0);
+        const octaMat = new THREE.MeshPhongMaterial({
+            color: 0x8b5cf6,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.5
+        });
+        const octahedron = new THREE.Mesh(octaGeo, octaMat);
+        octahedron.position.set(25, -10, -15);
+        scene.add(octahedron);
+        shapes.push({ mesh: octahedron, speed: { x: 0.003, y: 0.002, z: 0.004 } });
+
+        // Tetrahedron
+        const tetraGeo = new THREE.TetrahedronGeometry(8, 0);
+        const tetraMat = new THREE.MeshPhongMaterial({
+            color: 0xeab308,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const tetrahedron = new THREE.Mesh(tetraGeo, tetraMat);
+        tetrahedron.position.set(0, -20, -25);
+        scene.add(tetrahedron);
+        shapes.push({ mesh: tetrahedron, speed: { x: 0.004, y: 0.003, z: 0.002 } });
+
+        // Torus Knot
+        const torusKnotGeo = new THREE.TorusKnotGeometry(8, 2, 100, 16);
+        const torusKnotMat = new THREE.MeshPhongMaterial({
+            color: 0xff1493,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const torusKnot = new THREE.Mesh(torusKnotGeo, torusKnotMat);
+        torusKnot.position.set(-15, -15, -30);
+        scene.add(torusKnot);
+        shapes.push({ mesh: torusKnot, speed: { x: 0.001, y: 0.004, z: 0.003 } });
+
+        // Sphere with Multiple Rings
+        const sphereGeo = new THREE.SphereGeometry(6, 32, 32);
+        const sphereMat = new THREE.MeshPhongMaterial({
+            color: 0x00ff00,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.35
+        });
+        const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+        sphere.position.set(20, 20, -10);
+        scene.add(sphere);
+        shapes.push({ mesh: sphere, speed: { x: 0.002, y: 0.001, z: 0.003 } });
+
+        // Particle System - Stars Field
+        const starsGeometry = new THREE.BufferGeometry();
+        const starCount = 2000;
+        const positions = new Float32Array(starCount * 3);
+        const colors = new Float32Array(starCount * 3);
+
+        for (let i = 0; i < starCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 200;
+            positions[i + 1] = (Math.random() - 0.5) * 200;
+            positions[i + 2] = (Math.random() - 0.5) * 200;
+
+            // Random colors
+            const randomColor = new THREE.Color();
+            randomColor.setHSL(Math.random(), 0.7, 0.6);
+            colors[i] = randomColor.r;
+            colors[i + 1] = randomColor.g;
+            colors[i + 2] = randomColor.b;
+        }
+
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        starsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const starsMaterial = new THREE.PointsMaterial({
+            size: 0.2,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const stars = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(stars);
+
+        camera.position.z = 50;
+
+        // Mouse Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate all shapes
+            shapes.forEach(shape => {
+                shape.mesh.rotation.x += shape.speed.x;
+                shape.mesh.rotation.y += shape.speed.y;
+                shape.mesh.rotation.z += shape.speed.z;
+            });
+
+            // Rotate stars slowly
+            stars.rotation.y += 0.0005;
+            stars.rotation.x += 0.0002;
+
+            // Smooth camera movement
+            targetX = mouseX * 15;
+            targetY = mouseY * 15;
+
+            camera.position.x += (targetX - camera.position.x) * 0.05;
+            camera.position.y += (targetY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Pulsating lights
+            pointLight1.intensity = 2 + Math.sin(Date.now() * 0.001) * 0.5;
+            pointLight2.intensity = 2 + Math.cos(Date.now() * 0.0015) * 0.5;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+
+</html>

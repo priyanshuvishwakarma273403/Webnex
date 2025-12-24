@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | WEBNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cursor.css">
+
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- Pre-loader Flicker Prevention -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('webnex_session_visited')) {
+                document.documentElement.classList.add('preloader-hidden');
+            }
+        })();
+    </script>
+
+    <!-- EmailJS Library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <style>
+        .preloader-hidden #preloader {
+            display: none !important;
+        }
+
+        /* 3D Canvas background */
+        #contact-3d-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Contact Container */
+        .contact-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 6rem;
+            position: relative;
+        }
+
+        .contact-content {
+            max-width: 650px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Enhanced Form Styles */
+        .form-floating {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .form-floating label {
+            position: absolute;
+            top: 1rem;
+            left: 1.2rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: transparent;
+            padding: 0 0.3rem;
+        }
+
+        .form-floating input:focus+label,
+        .form-floating input:not(:placeholder-shown)+label,
+        .form-floating textarea:focus+label,
+        .form-floating textarea:not(:placeholder-shown)+label,
+        .form-floating select:focus+label,
+        .form-floating select:not([value=""])+label {
+            top: -0.7rem;
+            left: 1rem;
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            background: rgba(11, 14, 20, 0.9);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1.2rem 1.2rem;
+            background: rgba(30, 30, 50, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(30, 30, 50, 0.5);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Submit Button Enhancement */
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Success Modal Styles */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-modal.show {
+            display: flex;
+        }
+
+        .success-content {
+            background: linear-gradient(135deg, rgba(11, 14, 20, 0.95), rgba(30, 20, 50, 0.95));
+            border: 2px solid;
+            border-image: linear-gradient(135deg, #06b6d4, #8b5cf6) 1;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+            animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 100px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* Close X Button */
+        .modal-close-x {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #fff;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close-x:hover {
+            background: rgba(239, 68, 68, 0.8);
+            border-color: #ef4444;
+            transform: rotate(90deg);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shimmer {
+            to {
+                left: 100%;
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(6, 182, 212, 0);
+            }
+        }
+
+        .success-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .success-text {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .close-modal-btn {
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .close-modal-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Contact Info Cards */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: rgba(30, 30, 50, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles for Contact Page */
+        @media (max-width: 768px) {
+            .contact-wrapper {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .section-title h1 {
+                font-size: 2.5rem !important;
+            }
+
+            .glass-card {
+                padding: 2rem 1.5rem !important;
+            }
+
+            .form-floating {
+                margin-bottom: 1.5rem;
+            }
+
+            .submit-btn {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+
+            .success-content {
+                padding: 2rem 1.5rem;
+                max-width: 90%;
+            }
+
+            .success-title {
+                font-size: 1.5rem;
+            }
+
+            .success-text {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-wrapper {
+                padding: 5rem 0.8rem 1.5rem;
+            }
+
+            .section-title h1 {
+                font-size: 2rem !important;
+            }
+
+            .section-title p {
+                font-size: 1rem !important;
+            }
+
+            .glass-card {
+                padding: 1.5rem 1rem !important;
+            }
+
+            .form-input,
+            .form-textarea {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .form-floating label {
+                font-size: 0.85rem;
+            }
+
+            .submit-btn {
+                padding: 0.9rem;
+                font-size: 0.95rem;
+            }
+
+            .success-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2.5rem;
+            }
+
+            .info-card {
+                padding: 1.2rem 0.8rem;
+            }
+
+            .info-icon {
+                font-size: 1.5rem;
+            }
+
+            .info-value {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Direct Chat Section Styles */
+        .direct-chat-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .direct-chat-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #25d366, #e1306c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .direct-chat-section>p {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .chat-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chat-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+            background: rgba(30, 30, 50, 0.4);
+        }
+
+        .chat-btn .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        /* WhatsApp Button Style */
+        .chat-btn.whatsapp::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.7), rgba(18, 140, 126, 0.7));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .chat-btn.whatsapp:hover {
+            transform: translateY(-3px);
+            border-color: #25d366;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.25);
+        }
+
+        .chat-btn.whatsapp:hover::before {
+            opacity: 1;
+        }
+
+        .chat-btn.whatsapp:hover .icon {
+            transform: scale(1.1);
+        }
+
+        /* Instagram Button Style */
+        .chat-btn.instagram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .chat-btn.instagram:hover {
+            transform: translateY(-3px);
+            border-color: #bc1888;
+            box-shadow: 0 8px 25px rgba(188, 24, 136, 0.25);
+        }
+
+        .chat-btn.instagram:hover::before {
+            opacity: 1;
+        }
+
+        .chat-btn.instagram:hover .icon {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .direct-chat-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .direct-chat-section {
+                margin-top: 3rem;
+                padding-top: 2rem;
+            }
+
+            .direct-chat-title {
+                font-size: 1.5rem;
+            }
+
+            .chat-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .chat-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="contact-3d-bg"></canvas>
+
+    <nav class="navbar">
+        <a href="../index.html" class="logo">WEBNEX</a>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="../index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="modal-close-x" onclick="closeSuccessModal()">✕</div>
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">Message Sent!</h2>
+            <p class="success-text">
+                Thank you for reaching out to WEBNEX. We've received your message and will get back to you within 24
+                hours.
+            </p>
+            <button class="close-modal-btn" onclick="closeSuccessModal()">Close</button>
+        </div>
+    </div>
+
+    <div class="contact-wrapper">
+        <div class="contact-content">
+            <div class="section-title" style="text-align: center; margin-bottom: 3rem;">
+                <h1 class="gradient-text" style="font-size: 3.5rem; margin-bottom: 1rem;">Get In Touch</h1>
+                <p style="font-size: 1.1rem; opacity: 0.8;">Ready to transform your vision into reality?</p>
+            </div>
+
+            <div class="glass-card" style="padding: 3rem 2rem;">
+                <form id="contactForm">
+                    <div class="form-floating">
+                        <input type="text" id="name" class="form-input" placeholder=" " required>
+                        <label for="name">Your Name</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="email" id="email" class="form-input" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <select id="subject" class="form-input" required>
+                            <option value="" disabled selected></option>
+                            <option value="Start a Project">Start a Project</option>
+                            <option value="Join the Team">Join the Team</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Partnership">Partnership</option>
+                        </select>
+                        <label for="subject">Subject</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <textarea id="message" class="form-textarea" rows="5" placeholder=" " required></textarea>
+                        <label for="message">Your Message</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Send Message</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <div class="info-card">
+                    <div class="info-icon">📧</div>
+                    <div class="info-label">Email</div>
+                    <div class="info-value">vishwakarmahimanshu898</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📱</div>
+                    <div class="info-label">Phone</div>
+                    <div class="info-value">+91 8957751874</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📍</div>
+                    <div class="info-label">Location</div>
+                    <div class="info-value">Delhi</div>
+                </div>
+            </div>
+
+            <!-- Direct Chat Section -->
+            <div class="direct-chat-section">
+                <!-- 
+                   👇👇👇 PASTE YOUR URLs HERE 👇👇👇
+                   Replace '#' with your actual WhatsApp and Instagram links.
+                   Example for WhatsApp: https://wa.me/1234567890
+                   Example for Instagram: https://instagram.com/yourusername
+                -->
+                <h2 class="direct-chat-title">Let's Connect Instantly</h2>
+                <p>Reach out to us directly on your preferred platform</p>
+
+                <div class="chat-buttons">
+                    <!-- WhatsApp Button -->
+                    <a href="#" target="_blank" class="chat-btn whatsapp">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.683-2.031-.967-.272-.297-.471-.446-.72-.446-.297 0-.495.049-.743.173-.248.124-1.117 1.09-1.365 1.486-.248.397-.496.446-.793.297-.298-.149-1.258-.464-2.396-1.479-.884-.788-1.482-1.761-1.655-2.059-.173-.297-.019-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z" />
+                            </svg>
+                        </span>
+                        <span>WhatsApp Me</span>
+                    </a>
+
+                    <!-- Instagram Button -->
+                    <a href="https://www.instagram.com/webnex.18/" target="_blank" class="chat-btn instagram">
+                        <span class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                            </svg>
+                        </span>
+                        <span>Instagram DM</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">WEBNEX</a>
+                <p>Redefining the digital landscape with premium design and bleeding-edge technology.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://www.instagram.com/webnex.18/">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WEBNEX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 3D Background Script -->
+    <script>
+        // 3D Background Animation
+        const canvas = document.getElementById('contact-3d-bg');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0x06b6d4, 2, 100);
+        pointLight1.position.set(20, 20, 20);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0x8b5cf6, 2, 100);
+        pointLight2.position.set(-20, -20, 20);
+        scene.add(pointLight2);
+
+        // Create floating geometric shapes
+        const geometry1 = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material1 = new THREE.MeshPhongMaterial({
+            color: 0x06b6d4,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const torusKnot = new THREE.Mesh(geometry1, material1);
+        scene.add(torusKnot);
+
+        // Icosahedron
+        const geometry2 = new THREE.IcosahedronGeometry(8, 0);
+        const material2 = new THREE.MeshPhongMaterial({
+            color: 0x8b5cf6,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const icosahedron = new THREE.Mesh(geometry2, material2);
+        icosahedron.position.set(-15, 10, -10);
+        scene.add(icosahedron);
+
+        // Torus
+        const geometry3 = new THREE.TorusGeometry(12, 2, 16, 100);
+        const material3 = new THREE.MeshPhongMaterial({
+            color: 0xeab308,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const torus = new THREE.Mesh(geometry3, material3);
+        torus.position.set(15, -10, -15);
+        scene.add(torus);
+
+        // Particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particleCount = 1500;
+        const posArray = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 150;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.15,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.6
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 40;
+
+        // Mouse movement
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            torusKnot.rotation.x += 0.003;
+            torusKnot.rotation.y += 0.005;
+
+            icosahedron.rotation.x += 0.002;
+            icosahedron.rotation.y += 0.003;
+
+            torus.rotation.x += 0.004;
+            torus.rotation.y += 0.002;
+
+            particlesMesh.rotation.y += 0.001;
+
+            // Camera follow mouse
+            camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 10 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsive
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+    <!-- Form Handler with EmailJS Integration -->
+    <script>
+        // ⚠️ EMAILJS SETUP - Follow these steps:
+        // 1. Go to https://www.emailjs.com/ and create FREE account
+        // 2. Add Email Service (Gmail recommended)
+        // 3. Create Email Template with these variables: {{from_name}}, {{from_email}}, {{subject}}, {{message}}
+        // 4. Get your Public Key from Account > General
+        // 5. Replace the values below:
+
+        const EMAILJS_PUBLIC_KEY = "EV1QwfUS_AfzdGi9G";  // 👈 Your EmailJS Public Key
+        const EMAILJS_SERVICE_ID = "service_676xzc4";  // 👈 Your Service ID (e.g., "service_abc123")
+        const EMAILJS_TEMPLATE_ID = "template_iadh7y3"; // 👈 Your Template ID (e.g., "template_xyz789")
+        const YOUR_EMAIL = "pv254424@gmail.com";  // 👈 Your Gmail (where you'll receive messages)
+
+        // Initialize EmailJS
+        (function () {
+            if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+            }
+        })();
+
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            // Check if EmailJS is configured
+            if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY" || EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID" || EMAILJS_TEMPLATE_ID === "YOUR_TEMPLATE_ID") {
+                alert('⚠️ EmailJS not configured!\n\nPlease follow the setup instructions in the code (lines 692-702) to enable email functionality.\n\nFor now, the form will just show success without actually sending emails.');
+
+                // Show success modal without sending
+                document.getElementById('successModal').classList.add('show');
+                this.reset();
+                return;
+            }
+
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Sending...</span>';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Send email using EmailJS
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    from_name: name,
+                    from_email: email,
+                    to_email: YOUR_EMAIL,
+                    subject: subject,
+                    message: message
+                });
+
+                // Show success modal
+                document.getElementById('successModal').classList.add('show');
+
+                // Reset form
+                this.reset();
+            } catch (error) {
+                console.error('Email send failed:', error);
+                alert('❌ Failed to send message. Please try again or contact us directly at ' + YOUR_EMAIL);
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+
+        // Close modal on background click
+        document.getElementById('successModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeSuccessModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeSuccessModal();
+            }
+        });
+    </script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | WEBNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- GSAP & Lenis for smooth magic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- Pre-loader Flicker Prevention -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('webnex_session_visited')) {
+                document.documentElement.classList.add('preloader-hidden');
+            }
+        })();
+    </script>
+
+    <style>
+        .preloader-hidden #preloader {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="logo">WEBNEX</a>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="../index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="gallery.html" class="active">Gallery</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="section-title">
+            <h1 class="gradient-text">Design Gallery</h1>
+            <p>Visual exploration of branding, art direction, and UI concepts.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Gallery Item 1 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img2.png" alt="Design 1">
+            </div>
+            <!-- Gallery Item 2 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img3.png" alt="Design 2">
+            </div>
+            <!-- Gallery Item 3 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img13.png" alt="Design 3">
+            </div>
+            <!-- Gallery Item 4 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img4.png" alt="Design 4">
+            </div>
+            <!-- Gallery Item 5 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img5.png" alt="Design 5">
+            </div>
+            <!-- Gallery Item 6 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img6.png" alt="Design 6">
+            </div>
+            <!-- Gallery Item 7 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img7.png" alt="Design 7">
+            </div>
+            <!-- Gallery Item 8 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img8.png" alt="Design 8">
+            </div>
+            <!-- Gallery Item 9 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img9.png" alt="Design 9">
+            </div>
+            <!-- Gallery Item 10 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img14.png" alt="Design 10">
+            </div>
+            <!-- Gallery Item 11 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img15.png" alt="Design 11">
+            </div>
+            <!-- Gallery Item 12 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img12.png" alt="Design 12">
+            </div>
+            <!-- Gallery Item 13 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img16.png" alt="Design 13">
+            </div>
+            <!-- Gallery Item 14 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img17.png" alt="Design 14">
+            </div>
+            <!-- Gallery Item 15 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img18.png" alt="Design 15">
+            </div>
+            <!-- Gallery Item 16 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img19.png" alt="Design 16">
+            </div>
+            <!-- Gallery Item 17 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img20.png" alt="Design 17">
+            </div>
+            <!-- Gallery Item 18 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img21.png" alt="Design 18">
+            </div>
+            <!-- Gallery Item 19 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img22.png" alt="Design 19">
+            </div>
+            <!-- Gallery Item 20 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img23.png" alt="Design 20">
+            </div>
+            <!-- Gallery Item 21 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img24.png" alt="Design 21">
+            </div>
+            <!-- Gallery Item 22 - Add your image URL in src="" -->
+            <div class="gallery-item">
+                <img src="../images/img25.png" alt="Design 22">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">WEBNEX</a>
+                <p>Redefining the digital landscape with premium design and bleeding-edge technology.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WEBNEX. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

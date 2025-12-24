@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEBNEX | Future Digital Architectures</title>
+    <meta name="description"
+        content="Premium digital agency creating futuristic web experiences with 3D, AI, and cutting-edge design.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Three.js CDN - Global Version -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- Pre-loader Flicker Prevention -->
+    <script>
+        (function () {
+            if (sessionStorage.getItem('webnex_session_visited')) {
+                document.documentElement.classList.add('preloader-hidden');
+            }
+        })();
+    </script>
+
+    <!-- EmailJS Library -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <style>
+        .preloader-hidden #preloader {
+            display: none !important;
+        }
+    </style>
+
+    <!-- Hero & Loader Scripts (Early execution) -->
+    <script src="js/hero.js" defer></script>
+    <script src="js/loader-3d.js" defer></script>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">WEBNEX</a>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html" class="active">Home</a>
+            <a href="pages/services.html">Services</a>
+            <a href="pages/projects.html">Projects</a>
+            <a href="pages/gallery.html">Gallery</a>
+            <a href="pages/about.html">About</a>
+            <a href="pages/contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- 3D Hero Canvas -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Hero Content Overlay -->
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <span class="hero-subtitle">Premium Digital Agency</span>
+            <h1 class="fade-in typing-animation">Crafting the <br><span class="gradient-text">Unimaginable.</span>
+            </h1>
+            <p style="margin-top: 1.5rem; margin-bottom: 2rem; max-width: 500px; font-size: 1.1rem;">
+                We merge high-end aesthetics with cutting-edge technology to build digital experiences that define the
+                future.
+            </p>
+            <div class="hero-btns" style="display: flex; gap: 1rem;">
+                <a href="#explore" class="btn">Explore Works</a>
+                <a href="pages/contact.html" class="btn btn-outline">Join Us</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Banner -->
+    <div id="explore" class="page-container stats-section">
+        <div class="card-grid stats-grid">
+            <div class="glass-card" style="text-align: center; padding: 1.5rem 1rem;">
+                <div style="display: flex; align-items: baseline; justify-content: center; gap: 2px;">
+                    <h2 class="stat-number" data-target="500"
+                        style="color: var(--primary-color); font-size: 2.8rem; margin: 0;">0</h2>
+                    <span style="color: var(--primary-color); font-size: 1.8rem; font-weight: 800;">+</span>
+                </div>
+                <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--text-muted);">Projects Delivered</p>
+            </div>
+            <div class="glass-card" style="text-align: center; padding: 1.5rem 1rem;">
+                <div style="display: flex; align-items: baseline; justify-content: center; gap: 2px;">
+                    <h2 class="stat-number" data-target="98"
+                        style="color: var(--secondary-color); font-size: 2.8rem; margin: 0;">0</h2>
+                    <span style="color: var(--secondary-color); font-size: 1.8rem; font-weight: 800;">%</span>
+                </div>
+                <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--text-muted);">Client Satisfaction</p>
+            </div>
+            <div class="glass-card" style="text-align: center; padding: 1.5rem 1rem;">
+                <div style="display: flex; align-items: baseline; justify-content: center; gap: 2px;">
+                    <h2 class="stat-number" data-target="24"
+                        style="color: var(--accent-color); font-size: 2.8rem; margin: 0;">0</h2>
+                    <span style="color: var(--accent-color); font-size: 1.8rem; font-weight: 800;">/7</span>
+                </div>
+                <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--text-muted);">Support Available</p>
+            </div>
+            <div class="glass-card" style="text-align: center; padding: 1.5rem 1rem;">
+                <div style="display: flex; align-items: baseline; justify-content: center; gap: 2px;">
+                    <h2 class="stat-number" data-target="15" style="color: #fff; font-size: 2.8rem; margin: 0;">0</h2>
+                    <span style="color: #fff; font-size: 1.8rem; font-weight: 800;">+</span>
+                </div>
+                <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--text-muted);">Years Experience</p>
+            </div>
+        </div>
+
+        <!-- Trusted Partners Strip -->
+        <div class="partners-strip">
+            <p class="partners-label">Trusted by Industry Leaders</p>
+            <div class="partners-logos">
+                <h3>GOOGLE</h3>
+                <h3>MICROSOFT</h3>
+                <h3>AMAZON</h3>
+                <h3>SPOTIFY</h3>
+                <h3>NETFLIX</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Choose Section -->
+    <div class="page-container home-section">
+        <div class="section-title">
+            <h2 class="gradient-text">Why Choose Webnex?</h2>
+            <p>We don't just build websites; we build digital legacies.</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="glass-card">
+                <h3>🎨 Futuristic Design</h3>
+                <p>Cyberpunk-inspired aesthetics that stand out in a crowded digital landscape. We use
+                    glassmorphism,
+                    neon accents, and deep immersive backgrounds to create experiences users never forget.</p>
+            </div>
+            <div class="glass-card">
+                <h3>🌐 3D Interactive</h3>
+                <p>Engage your audience with WebGL-powered 3D elements that bring your brand to life. From hero
+                    headers
+                    to interactive product showcases, we push the boundaries of web technology.</p>
+            </div>
+            <div class="glass-card">
+                <h3>⚡ Performance First</h3>
+                <p>Blazing fast load times and optimized assets ensuring your premium look doesn't come at the cost
+                    of
+                    user experience. We deliver beautiful AND fast.</p>
+            </div>
+            <div class="glass-card">
+                <h3>🤖 AI Integration</h3>
+                <p>Leverage the power of artificial intelligence with chatbots, personalization engines, and
+                    predictive
+                    analytics integrated seamlessly into your platform.</p>
+            </div>
+            <div class="glass-card">
+                <h3>📱 Mobile-First</h3>
+                <p>Every pixel is designed for the mobile experience first, then enhanced for desktop. Your users
+                    get a
+                    perfect experience regardless of their device.</p>
+            </div>
+            <div class="glass-card">
+                <h3>🔒 Enterprise Security</h3>
+                <p>Bank-level encryption, GDPR compliance, and penetration testing ensure your digital assets and
+                    customer data remain protected 24/7.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack Marquee -->
+    <div class="tech-marquee-wrapper">
+        <div class="tech-marquee">
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">REACT</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">THREE.JS</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">NEXT.JS</span>
+            <span style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">GSAP</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">NODE.JS</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">TYPESCRIPT</span>
+            <span style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">JAVA</span>
+            <span style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">AWS</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">SPRINGBOOT</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">DOCKER</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">JENKINS</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">KUBERNETES</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">NODE.JS</span>
+            <span
+                style="font-size: 1.5rem; color: rgba(255,255,255,0.4); margin: 0 2rem; font-weight: 700;">EXPRESS.JS</span>
+        </div>
+        <style>
+            @keyframes marquee {
+                0% {
+                    transform: translate(0, 0);
+                }
+
+                100% {
+                    transform: translate(-100%, 0);
+                }
+            }
+        </style>
+    </div>
+
+    <!-- Process Section -->
+    <div class="page-container process-section">
+        <div class="section-title">
+            <h2>Our <span class="gradient-text">Process</span></h2>
+            <p>From concept to reality, we follow a rigorous path to perfection.</p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-step glass-card" style="padding: 2rem 1rem;">
+                <div
+                    style="width: 60px; height: 60px; background: var(--primary-color); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 0 20px rgba(6,182,212,0.4);">
+                    1</div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Discovery</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8;">We dive deep into your brand's core values and
+                    objectives.
+                </p>
+            </div>
+            <div class="process-step glass-card" style="padding: 2rem 1rem;">
+                <div
+                    style="width: 60px; height: 60px; background: var(--secondary-color); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 0 20px rgba(139,92,246,0.4);">
+                    2</div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Strategy</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8;">Crafting a roadmap that aligns technology with
+                    business
+                    goals.</p>
+            </div>
+            <div class="process-step glass-card" style="padding: 2rem 1rem;">
+                <div
+                    style="width: 60px; height: 60px; background: #eab308; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 0 20px rgba(234,179,8,0.4);">
+                    3</div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Design</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8;">Visualizing the future with high-fidelity interactive
+                    prototypes.</p>
+            </div>
+            <div class="process-step glass-card" style="padding: 2rem 1rem;">
+                <div
+                    style="width: 60px; height: 60px; background: #22c55e; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 0 20px rgba(34,197,94,0.4);">
+                    4</div>
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Launch</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8;">Deploying scalable, secure code that powers your
+                    digital
+                    empire.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Highlight -->
+    <div class="page-container services-highlight">
+        <div class="section-title">
+            <h2>Our <span class="gradient-text">Expertise</span></h2>
+            <p>End-to-end digital solutions for the modern enterprise.</p>
+        </div>
+
+        <div class="card-grid services-grid">
+            <div class="glass-card">
+                <h3>Web Development</h3>
+                <p>Custom web applications built with React, Vue, Next.js, and bleeding-edge frameworks. Scalable
+                    architecture designed for growth.</p>
+                <a href="pages/services.html" class="btn btn-outline"
+                    style="margin-top: 1rem; font-size: 0.85rem; padding: 0.7rem 1.5rem;">Learn More →</a>
+            </div>
+            <div class="glass-card">
+                <h3>GraphicDesign</h3>
+                <p>Award-winning design that balances aesthetics with usability. User research, wireframing,
+                    prototyping, and testing.</p>
+                <a href="pages/services.html" class="btn btn-outline"
+                    style="margin-top: 1rem; font-size: 0.85rem; padding: 0.7rem 1.5rem;">Learn More →</a>
+            </div>
+            <div class="glass-card">
+                <h3>Brand Strategy</h3>
+                <p>Complete brand identity creation from logo to voice. We help you stand out and stay memorable in
+                    crowded markets.</p>
+                <a href="pages/services.html" class="btn btn-outline"
+                    style="margin-top: 1rem; font-size: 0.85rem; padding: 0.7rem 1.5rem;">Learn More →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div class="page-container" style="padding-top: 5rem; overflow: hidden;">
+        <div class="section-title">
+            <h2>Trusted <span class="gradient-text">By Visionaries</span></h2>
+            <p>Here's what our partners say about the future we built together.</p>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <div class="glass-card testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar"
+                            style="background: center/cover url('https://placehold.co/100x100/333/fff?text=JS');">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>James Sutherland</h4>
+                            <span>CEO, TechNova</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Webnex didn't just redesign our site; they reinvented our brand.
+                        The 3D
+                        integration is seamless and engagement increased 200%."</p>
+                </div>
+                <div class="glass-card testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar"
+                            style="background: center/cover url('https://placehold.co/100x100/333/fff?text=SL');">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Sarah Lee</h4>
+                            <span>Founder, Aesthetix</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Absolutely stunning work. The attention to detail in the animations
+                        and
+                        glassmorphism UI is world-class. Best investment we made."</p>
+                </div>
+                <div class="glass-card testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar"
+                            style="background: center/cover url('https://placehold.co/100x100/333/fff?text=MR');">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Michael Ross</h4>
+                            <span>Director, CyberSystems</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Fast, futuristic, and flawless. The team at Webnex understands
+                        modern
+                        web architecture better than anyone in the industry."</p>
+                </div>
+                <div class="glass-card testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar"
+                            style="background: center/cover url('https://placehold.co/100x100/333/fff?text=DK');">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>David Kim</h4>
+                            <span>CTO, NextGen</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"The best decision we made was partnering with Webnex. Truly ahead
+                        of
+                        the curve and delivered beyond expectations."</p>
+                </div>
+                <div class="glass-card testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar"
+                            style="background: center/cover url('https://placehold.co/100x100/333/fff?text=ER');">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Elena Rodriguez</h4>
+                            <span>VP Design, Creative X</span>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"A visual masterpiece. The responsiveness across devices is
+                        incredible
+                        and our conversion rates doubled instantly."</p>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Auto-duplicate carousel items for seamless infinite scroll
+            const carouselTrack = document.querySelector('.carousel-track');
+            if (carouselTrack) {
+                carouselTrack.innerHTML += carouselTrack.innerHTML;
+            }
+        </script>
+    </div>
+
+    <!-- Recent Works Teaser -->
+    <div class="page-container" style="padding-top: 5rem;">
+        <div class="section-title">
+            <h2>Recent <span class="gradient-text">Masterpieces</span></h2>
+            <p>Featured projects that redefined digital experiences.</p>
+        </div>
+
+        <div class="card-grid">
+            <div class="project-card">
+                <div class="video-container project-video-wrapper"
+                    style="margin:0; border-radius: 20px; height: 400px; overflow: hidden; position: relative;">
+                    <video class="hover-video"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" muted loop>
+                        <source src="videos/vid1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="project-overlay"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(6,182,212,0.95) 0%, rgba(139,92,246,0.95) 100%); display: flex; align-items: center; justify-content: center; border-radius: 20px; transition: opacity 0.4s ease, transform 0.4s ease; cursor: pointer;">
+                        <div class="project-info" style="text-align: center; padding: 2rem;">
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem; color: white; font-weight: 700;">AI
+                                Modern Porfolio</h3>
+                            <p
+                                style="font-size: 1rem; color: rgba(255,255,255,0.9); margin: 0; letter-spacing: 0.05em;">
+                                Porfolio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="video-container project-video-wrapper"
+                    style="margin:0; border-radius: 20px; height: 400px; overflow: hidden; position: relative;">
+                    <video class="hover-video"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" muted loop>
+                        <source src="videos/vid2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="project-overlay"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(234,179,8,0.95) 0%, rgba(239,68,68,0.95) 100%); display: flex; align-items: center; justify-content: center; border-radius: 20px; transition: opacity 0.4s ease, transform 0.4s ease; cursor: pointer;">
+                        <div class="project-info" style="text-align: center; padding: 2rem;">
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem; color: white; font-weight: 700;">Neon
+                                Project</h3>
+                            <p
+                                style="font-size: 1rem; color: rgba(255,255,255,0.9); margin: 0; letter-spacing: 0.05em;">
+                                Hotstar Clone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="video-container project-video-wrapper"
+                    style="margin:0; border-radius: 20px; height: 400px; overflow: hidden; position: relative;">
+                    <video class="hover-video"
+                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;" muted loop>
+                        <source src="videos/vid3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="project-overlay"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(139,92,246,0.95) 0%, rgba(6,182,212,0.95) 100%); display: flex; align-items: center; justify-content: center; border-radius: 20px; transition: opacity 0.4s ease, transform 0.4s ease; cursor: pointer;">
+                        <div class="project-info" style="text-align: center; padding: 2rem;">
+                            <h3 style="font-size: 2rem; margin-bottom: 0.5rem; color: white; font-weight: 700;">
+                                Cyber
+                                Three.js</h3>
+                            <p
+                                style="font-size: 1rem; color: rgba(255,255,255,0.9); margin: 0; letter-spacing: 0.05em;">
+                                Portfolio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="pages/projects.html" class="btn btn-outline">View All Projects</a>
+        </div>
+    </div>
+
+    <!-- 3D Contact Section -->
+    <div class="contact-3d-section" style="padding: 0; margin: 8rem 0; position: relative; width: 100%;">
+        <!-- 3D Canvas Background -->
+        <div style="position: absolute; top: -50px; left: -10%; width: 120%; height: 120%; z-index: -1;">
+            <canvas id="contact-canvas" style="width: 100%; height: 100%;"></canvas>
+        </div>
+
+        <div class="section-title" style="position: relative; z-index: 10; text-align: center;">
+            <h2 style="font-size: 3rem; margin-bottom: 1rem;">Let's Create <span class="gradient-text">Future</span>
+            </h2>
+            <p>Select your path to interact with Webnex universe.</p>
+        </div>
+
+        <!-- 3 Cool Interactive Components -->
+        <div class="contact-3d-cards-wrapper"
+            style="display: flex; flex-wrap: nowrap; justify-content: center; align-items: stretch; gap: 1.5rem; max-width: 950px; margin: 0 auto; position: relative; z-index: 10;">
+
+            <!-- Component 1: Project -->
+            <div class="glass-card contact-3d-card"
+                style="flex: 1; min-width: 0; text-align: center; padding: 2.5rem 1rem; transition: transform 0.3s ease, background 0.3s;">
+                <div
+                    style="width: 70px; height: 70px; margin: 0 auto 1.5rem; background: rgba(6,182,212,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(6,182,212,0.3); box-shadow: 0 0 20px rgba(6,182,212,0.2);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <h3 style="font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; white-space: nowrap;">Start
+                    Project
+                </h3>
+                <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.9rem;">Transform your vision into a
+                    digital
+                    masterpiece.</p>
+                <a href="pages/contact.html" class="btn" style="width: 100%; font-size: 0.9rem; padding: 0.8rem;">Launch
+                    Idea</a>
+            </div>
+
+            <!-- Component 2: Careers -->
+            <div class="glass-card contact-3d-card"
+                style="flex: 1; min-width: 0; text-align: center; padding: 2.5rem 1rem; transition: transform 0.3s ease, background 0.3s;">
+                <div
+                    style="width: 70px; height: 70px; margin: 0 auto 1.5rem; background: rgba(139,92,246,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(139,92,246,0.3); box-shadow: 0 0 20px rgba(139,92,246,0.2);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3 style="font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; white-space: nowrap;">Join Team
+                </h3>
+                <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.9rem;">Be part of the engineers shaping
+                    the
+                    next web.</p>
+                <a href="pages/contact.html" class="btn btn-outline"
+                    style="width: 100%; border-color: var(--secondary-color); color: var(--secondary-color); font-size: 0.9rem; padding: 0.8rem;">Join
+                    Now</a>
+            </div>
+
+            <!-- Component 3: General -->
+            <div class="glass-card contact-3d-card"
+                style="flex: 1; min-width: 0; text-align: center; padding: 2.5rem 1rem; transition: transform 0.3s ease, background 0.3s;">
+                <div
+                    style="width: 70px; height: 70px; margin: 0 auto 1.5rem; background: rgba(234,179,8,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(234,179,8,0.3); box-shadow: 0 0 20px rgba(234,179,8,0.2);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                        </path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </div>
+                <h3 style="font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; white-space: nowrap;">Say Hello
+                </h3>
+                <p style="margin-bottom: 1.5rem; opacity: 0.8; font-size: 0.9rem;">General inquiries, partnerships,
+                    or
+                    just to vibe.</p>
+                <a href="mailto:hello@webnex.com" class="btn btn-outline"
+                    style="width: 100%; border-color: #eab308; color: #eab308; font-size: 0.9rem; padding: 0.8rem;">Drop
+                    Mail</a>
+            </div>
+
+        </div>
+
+        <style>
+            .contact-3d-card:hover {
+                transform: translateY(-15px) scale(1.02);
+                background: rgba(255, 255, 255, 0.08);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            }
+        </style>
+    </div>
+
+    <!-- Load the specific 3D script for this section -->
+    <script src="js/contact-3d.js"></script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">WEBNEX</a>
+                <p>Redefining the digital landscape with premium design and bleeding-edge technology.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="pages/about.html">About Us</a></li>
+                    <li><a href="pages/services.html">Services</a></li>
+                    <li><a href="pages/contact.html">Careers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="https://www.instagram.com/webnexofficial/">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 WEBNEX. All rights reserved.</p>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Video hover functionality with overlay fade
+        document.addEventListener('DOMContentLoaded', function () {
+            const projectCards = document.querySelectorAll('.project-card');
+
+            projectCards.forEach(card => {
+                const video = card.querySelector('.hover-video');
+                const overlay = card.querySelector('.project-overlay');
+
+                // Hover in - fade out overlay and play video
+                card.addEventListener('mouseenter', function () {
+                    if (overlay) {
+                        overlay.style.opacity = '0';
+                    }
+                    if (video) {
+                        video.play();
+                    }
+                });
+
+                // Hover out - fade in overlay and pause video
+                card.addEventListener('mouseleave', function () {
+                    if (overlay) {
+                        overlay.style.opacity = '1';
+                    }
+                    if (video) {
+                        video.pause();
+                        video.currentTime = 0; // Reset to start
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Popup Contact Modal -->
+    <div id="popupModal" class="popup-modal">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">&times;</button>
+
+            <div class="popup-header">
+                <h2 class="gradient-text">Let's Connect!</h2>
+                <p>Get in touch or reach out directly</p>
+            </div>
+
+            <!-- Contact Form -->
+            <form id="popupForm" class="popup-form">
+                <div class="form-group">
+                    <input type="text" id="popup-name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="popup-email" placeholder="Your Email" required>
+                </div>
+                <button type="submit" class="popup-submit-btn">
+                    <span>Send Message</span>
+                </button>
+            </form>
+
+            <!-- OR Divider -->
+            <div class="popup-divider">
+                <span>or connect via</span>
+            </div>
+
+            <!-- Social Buttons -->
+            <div class="popup-social">
+                <!-- 👇 PASTE YOUR URLS HERE 👇 -->
+                <a href="#" target="_blank" class="social-btn whatsapp-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.67.149-.198.297-.768.967-.943 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z" />
+                    </svg>
+                    <span>WhatsApp</span>
+                </a>
+                <a href="#" target="_blank" class="social-btn instagram-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <style>
+        @media (max-width: 480px) {
+            .popup-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .popup-social {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <script>
+        // EmailJS Configuration (Same as contact page)
+        const EMAILJS_PUBLIC_KEY = "EV1QwfUS_AfzdGi9G";
+        const EMAILJS_SERVICE_ID = "service_676xzc4";
+        const EMAILJS_TEMPLATE_ID = "template_iadh7y3";
+        const YOUR_EMAIL = "pv254424@gmail.com";
+
+        // Initialize EmailJS
+        (function () {
+            if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+            }
+        })();
+
+
+        // Show popup after 15 seconds if not closed before (Session based)
+        setTimeout(function () {
+            const popupClosed = sessionStorage.getItem('popupSessionClosed');
+            if (!popupClosed) {
+                const modal = document.getElementById('popupModal');
+                if (modal) modal.classList.add('show');
+            }
+        }, 15000); // 15 seconds
+
+
+        // Close popup function
+        function closePopup() {
+            document.getElementById('popupModal').classList.remove('show');
+            sessionStorage.setItem('popupSessionClosed', 'true');
+        }
+
+        // Close on background click
+        document.getElementById('popupModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('popupModal');
+                if (modal.classList.contains('show')) {
+                    closePopup();
+                }
+            }
+        });
+
+        // Form submission
+        document.getElementById('popupForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = this.querySelector('.popup-submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Sending...</span>';
+
+            const name = document.getElementById('popup-name').value;
+            const email = document.getElementById('popup-email').value;
+
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    from_name: name,
+                    from_email: email,
+                    to_email: YOUR_EMAIL,
+                    subject: "New Contact from Popup",
+                    message: `Name: ${name}\nEmail: ${email}\n\nThis message was sent from the website popup.`
+                });
+
+                submitBtn.innerHTML = '<span>✓ Sent!</span>';
+                setTimeout(() => {
+                    closePopup();
+                    this.reset();
+                }, 1500);
+            } catch (error) {
+                console.error('Email send failed:', error);
+                alert('Failed to send. Please try again!');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    </script>
+    <!-- Professional Notification System -->
+    <link rel="stylesheet" href="css/notifications.css">
+    <script src="js/notifications.js"></script>
+</body>
+
+</html>

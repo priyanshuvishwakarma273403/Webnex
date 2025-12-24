@@ -1,0 +1,24 @@
+/* Global Variables - Colors, Fonts, gradients */
+:root {
+    /* Palette: Deep Midnight & Vibrant Accents */
+    --bg-color: #0B0E14;
+    --bg-gradient: radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.15), transparent 25%);
+    --text-color: #F8FAFC;
+    --text-muted: #94A3B8;
+
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.06);
+    --glass-highlight: rgba(255, 255, 255, 0.1);
+
+    --primary-color: #06b6d4;
+    /* Cyan */
+    --secondary-color: #8b5cf6;
+    /* Violet */
+    --accent-color: #f59e0b;
+    /* Amber */
+
+    --primary-gradient: linear-gradient(135deg, #06b6d4, #8b5cf6);
+    --font-main: 'Inter', sans-serif;
+    --transition-speed: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
